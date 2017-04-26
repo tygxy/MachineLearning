@@ -30,4 +30,117 @@ public class 类名 {
 - 成员变量包括实例变量和类变量；局部变量包括形参，方法局部变量，代码块局部变量
 
 ### 5.4 隐藏与封装
+- 封装是指将对象的状态信息隐藏在对象内部，通过类提供的方法实现对内部信息的访问和操作
+- package,import,import static
+
+### 5.5 深入构造器
+- 构造器的重载
+```java
+public class Apple{
+	String name;
+	String color;
+	double weight;
+	// 无参数构造器
+	public Apple(){}
+	// 两个参数构造器
+	public Apple(String name, String color){
+		this.name = name;
+		this.color = color;
+	}
+	// 三个参数构造器
+	public Apple(String name, String color, double weight){
+		this(name, color);
+		this.weight = weight;
+	}
+}
+```
+### 5.6 类的继承
+- 重写，子类对父类方法的覆盖
+- 子类方法中调用父类被覆盖的实例方法或者实例变量，使用super关键字
+```java
+public void callOverrideedMethod(){
+	super.fly();
+	super.name = "xxx";
+}
+```
+- 子类不会获得父类的构造器，但是可以调用父类的构造器，使用super，而且至少(隐式)调用一次
+```java
+class Base {
+	public double size;
+	public String name;
+	public Base(double size, String name) {
+		this.size = size;
+		this.name = name;
+	}
+}
+public class Sub extends Base {
+	public String color;
+	public Sub (double size, String name, String color) {
+		super(size, name);
+		this.color = color;
+	}
+}
+```
+- 如果父类方法需要被外部调用，用public修饰，但是又不希望子类重写，可以使用final
+
+### 5.7 多态
+- 相同类型的变量、调用同一个方法时呈现出多种不同的行为特征，这就是多态
+	- 父类的引用指向子类对象
+- instanceof，用于判断前面的对象是否是后面的类，或者子类
+```java
+Object hello = "hello";
+System.out.println(hello instanceof Object)
+```
+- (type)variable 可以强制类型转换
+
+
+### 5.8	继承与组合
+- 组合是把旧类对象作为新类的成员变量组合进来
+
+### 5.9 初始化块
+- 在构造器前执行
+
+
+## 第六章 面向对象(下)
+
+### 6.1 Java增强的包装类
+- 基本类型转换成字符串
+```java
+String dbStr = String.valueOf(2.345);
+String boolStr = String.valueOf(ture);
+```
+- 字符串转换成基本类型
+```java
+String intStr = "123";
+// 方法一
+int it1 = new Interger(intStr);
+// 方法二
+int it2 = Interger.parseInt(intStr);
+```
+
+### 6.2 处理对象
+- toString()
+- ==和equals()
+	- 对于两个引用类型变量，只有他们指向同一个对象时，才会返回true
+	- str1.equals(str2) // 如果str1和str2值相同，可以判断为true，因为String的equals()已经重写了
+
+### 6.3 类成员
+- 类成员包括类变量，类方法，静态初始化块，内部类
+
+### 6.4 final修饰符
+- 可以修饰类，变量，方法，用于表示它修饰的类，变量，方法不可变
 - 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
