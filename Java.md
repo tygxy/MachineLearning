@@ -200,9 +200,106 @@ public class machine implements Output {
 ## 第七章 Java基础类库
 
 ### 7.1 与用户互动
+- main函数中public static void main(String[] args){}
+	- 执行java 类名 参数，就可以将参数输入到args中
+- Scanner 获取输入
+```java
+// 读取键盘输入
+Scanner sc = new Scanner(System.in);
+while(sc.hasNext()) {
+	System.out.println(sc.next());
+}
+
+// 读取文件内容
+Scanner scFile = new Scanner(new File("Test.java"));
+while(scFile.hasNextLine) {
+	System.out.println(scFile.nextLine());
+}
+```
+
+### 7.2 系统相关
+
+### 7.3 常用类
+- Object类
+- String类和StringBuffer
+	- String创建之后字符串序列不可变，但是StringBuffer创建后字符串可以改变
+	- String的方法
+	```java
+	// 构造器String()
+	String s = new String("我是字符串");
+
+	// char charAt(int index) 获取指定位置的字符
+	System.out.println(s.charAt(5));
+
+	// boolean equals(Object anObject) 比较字符串与Object对象的字符串序列是否相等
+
+	// int indexOf(String str) 找出str子串在该字符串第一次出现的位置
+
+	// String substring(int beginIndex, int endIndex) 返回从beginIndex到endIndex的子字符串
+
+	// static String valueOf(X x) 将基本类型转换成String
+	String dbStr = String.valueOf(2.345);
+	```
+	- StringBuffer的方法
+	```java
+	StringBuffle sb = new StringBuffle();
+
+	sb.append("java");
+	sb.insert("hello ");
+	sb.replace(5, 6, ",");
+	sb.delete(5, 6);
+	sb.reverse();
+	```
+- Math类
+- Random类
+- BigDecimal类
+- Calendar类
+
+### 7.5 正则表达式
 
 
+## 第八章 Java集合
 
+### 8.1 Java集合概述
+- 集合主要由Collection和Map两个接口派生而来
+	- Collection包括Set，Queue，List三个子接口，已经派生出来的实现类
+	- Map接口派生众多实现类
+
+### 8.2 Collection和Iterator接口
+- Collection的方法
+```java
+boolean add(Object o);
+boolean addAll(Collection c);
+void clear();
+boolean contains(Object o);
+boolean containsAll(Collection c);
+boolean isEmpty();
+boolean remove(Object o);
+boolean removeAll(Collection c); //删除集合c中的所有元素
+boolean retainAll(Collection c); //删除集合c中不包含的元素
+int size();
+Iterator iterator(); //返回Iterator对象
+Object[] toArray(); //集合转换成数组，所有集合元素变为对应的数组元素
+```
+- Iterator的方法
+```java
+boolean hasNext();
+Object next();
+void remove(); //删除集合上一次next方法返回的元素
+
+Collection books = new ArrayList();
+books.add("Think in Java");
+books.add("python");
+Iterator it = books.iterator();
+while (it.hasNext()) {
+	System.out.println((String)it.next()); //next()返回的对象是Object，需要强制类型转换
+}
+```
+### 8.3 Set集合
+- 不可重复，没有顺序，基本操作与Collection相同
+- HashSet类
+	- 是Set接口的典型实现，使用Hash算法存储集合元素
+- TreeSet类
 
 
 
