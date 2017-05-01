@@ -266,7 +266,7 @@ while(scFile.hasNextLine) {
 	- Map接口派生众多实现类
 
 ### 8.2 Collection和Iterator接口
-- Collection的方法
+- Collection的接口方法
 ```java
 boolean add(Object o);
 boolean addAll(Collection c);
@@ -300,7 +300,72 @@ while (it.hasNext()) {
 - HashSet类
 	- 是Set接口的典型实现，使用Hash算法存储集合元素
 - TreeSet类
+	- 是SortedSet接口的实现类，是有序的
+	- TreeSet的额外方法
+	```java
+	Object first() //返回集合第一个元素
+	Object last() 
+	Object lower(Object e) // 返回小于e的最大元素
+	Object higher(Object e) 
+	SortedSet subSet(Object fromElement, Object toElement) //返回从fromElement(包含)到toElement(不包含的子序列
+	```
+	- 如果将一个对象插入到TreeSet中，则该对象的类必须实现Comparable接口
+- EnumSet类
 
+### 8.4 List集合
+- List接口方法
+```java
+void add(int index, Object element);
+Object get(int index); //返回索引为index的对象
+Object remove(int index);
+int indexOf(Object e); //返回e第一次出现的索引
+Object set(int index, Object e); 将index处的元素替换成e
+List subList(int fromIndex, int toIndex);  
+sort();
+replaceAll();
+```
+- ListIterator
+	- 提供了反向迭代的能力
+	```java
+	boolean hasPrevious()
+	Object Previous()
+	```
+- ArrayList和Vector实现类
+
+### 8.5 Queue集合
+- Queue接口的方法
+```java
+void add(Object e) //添加到尾部
+Object peek()  //返回头部元素，但不删除
+Object poll()  //返回头部元素，删除
+```
+- PriorityQueue实现类
+	- 保存队列顺序是按照大小顺序排列，这点已经不是队列了
+
+- Deque接口
+	- 是Queue的子接口，双端队列
+
+- ArrayDeque是Deque的实现类，可以当栈和队列使用
+	- 当栈使用
+	```java
+	ArrayDeque stack = new ArrayDeque();
+	stack.push(Object e);
+	stack.peek();
+	stack.pop();
+	```
+	- 当队列使用
+	```java
+	ArrayDeque queue = new ArrayDeque();
+	queue.offer(Object e);
+	queue.peek();
+	queue.poll();
+	```
+- LinkedList实现类
+	- LinkedList是基于链表，而ArrayList和ArrayDeque是基于数组
+	- LinkedList 可以作为List集合，双端队列，栈使用
+
+### 8.6 Map集合
+- 
 
 
 
