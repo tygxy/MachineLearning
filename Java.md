@@ -3,6 +3,18 @@
 ## 第四章 数组
 
 - 创建 int[] array = new int[5] {1，2，3，4，5};
+- Arrays类
+	- 方法
+	```java
+	int binarySearch(type[] a, type key); //使用二分法查找key在a数组中的索引，要求a必须升序排列
+	type[] copyOf(type[] original,int length); //复制original数组的length个元素给新数组
+	void sort(type[] a);
+	boolean equals(type[] a, type[] b); //a,b数组长度相等，元素也相同
+
+	//使用方法
+	Arrays.sort(nums);
+	Arrays.copyOf(nums, 10);
+	```
 
 ## 第五章 面向对象(上)
 
