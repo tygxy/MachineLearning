@@ -1,5 +1,9 @@
 # 疯狂的Java
 
+## 第四章 数组
+
+- 创建 int[] array = new int[5] {1，2，3，4，5};
+
 ## 第五章 面向对象(上)
 
 ### 5.1 类与对象
@@ -221,6 +225,9 @@ while(scFile.hasNextLine) {
 
 ### 7.3 常用类
 - Object类
+	- equals() 
+		- Object中的equals()是比较两个对象是否同一内存地址，即是否引用同一对象
+		- 但是实际是对两个对象进行内容的比较，不是引用的比较，所以需要重写
 - String类和StringBuffer
 	- String创建之后字符串序列不可变，但是StringBuffer创建后字符串可以改变
 	- String的方法
@@ -231,7 +238,9 @@ while(scFile.hasNextLine) {
 	// char charAt(int index) 获取指定位置的字符
 	System.out.println(s.charAt(5));
 
-	// boolean equals(Object anObject) 比较字符串与Object对象的字符串序列是否相等
+	// boolean equals(Object anObject) 比较字符串与Object对象的字符串内容是否相等
+
+	// == 判断内容与地址是否相同
 
 	// int indexOf(String str) 找出str子串在该字符串第一次出现的位置
 
@@ -240,6 +249,10 @@ while(scFile.hasNextLine) {
 	// static String valueOf(X x) 将基本类型转换成String
 	String dbStr = String.valueOf(2.345);
 	```
+	- null是String没有new,引用没有创建，没有内存;""和new String()是已经new了，只不过内部为空
+	- 推荐直接赋值,String s = 'aa'，除非有必要才会创建String对象，String s = new String("aa")
+	- 字符串的拼接
+		- + ;concat(); append()
 	- StringBuffer的方法
 	```java
 	StringBuffle sb = new StringBuffle();
@@ -365,8 +378,57 @@ Object poll()  //返回头部元素，删除
 	- LinkedList 可以作为List集合，双端队列，栈使用
 
 ### 8.6 Map集合
-- 
+- Map接口的方法
+```java
+boolean containsKey(Object key)
+boolean containsValue(Object Value)
+Object get(Object key)
+Set keySet() //返回Map中所有key组成的Set集合
+Object put(Object key, Object value)
+Object remove(Object key)
+Collection values() //返回Map中所有value组成的Collection集合
+//遍历
+for (Object key : map.keySet()) {
+	map.get(key);
+}
+```
+- HashMap实现类
+	- 作为Key的对象必须实现hashCode()和equals()方法
+	- LinlkedHashMap子类，使用双向链表维护key-value的次序
+- SortedMap接口和TreeMap实现类
 
+### 8.7 操作集合的工具类Collections
+- 排序操作
+```java
+void reverse(List list);
+void sort(List list); 
+void shuffle(list);
+// 使用方法
+Collections.reverse(list);
+```
+- 查找,替换操作
+```java
+int binarySearch(List list, Object key); //使用二分查找搜索list,获得指定对象key在list集合中的索引
+int frequency(Collection c, Object o); //返回指定集合中指定对象的出现次数
+Object max(Collection c);
+// 使用方法
+Collections.frequency(list, -5);
+```
+- 同步控制
+	- 保证线程安全
+	```java
+	List list = Collections.synchronizedList(new ArrayList());
+	```
+
+## 第九章 泛型
+- 泛型入门
+	- 允许程序在创建集合时指定集合元素的类型
+	```java
+	List<String> list = new ArrayList<>();
+	Map<Integer, String> map = new HashMap<>();
+	```
+## 第十章 异常处理
+- 
 
 
 
