@@ -260,11 +260,13 @@ while(scFile.hasNextLine) {
 
 	// static String valueOf(X x) 将基本类型转换成String
 	String dbStr = String.valueOf(2.345);
+
+	// String[] arr = s.split(" "); 
 	```
 	- null是String没有new,引用没有创建，没有内存;""和new String()是已经new了，只不过内部为空
 	- 推荐直接赋值,String s = 'aa'，除非有必要才会创建String对象，String s = new String("aa")
 	- 字符串的拼接
-		- + ;concat(); append()
+		- concat(); append(); "+"
 	- StringBuffer的方法
 	```java
 	StringBuffle sb = new StringBuffle();
@@ -274,6 +276,7 @@ while(scFile.hasNextLine) {
 	sb.replace(5, 6, ",");
 	sb.delete(5, 6);
 	sb.reverse();
+	sb.setLength(10); //返回10位的sb
 	```
 - Math类
 - Random类
