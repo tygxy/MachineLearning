@@ -261,7 +261,13 @@ while(scFile.hasNextLine) {
 	// static String valueOf(X x) 将基本类型转换成String
 	String dbStr = String.valueOf(2.345);
 
-	// String[] arr = s.split(" "); 
+	// String[] arr = s.split(" "); String拆分
+
+	// s.toCharArray()  把String拆成char数组
+
+	// s.toUpperCase()  把String全部大写
+
+	// s.toLowerCase()  把String全部小写
 	```
 	- null是String没有new,引用没有创建，没有内存;""和new String()是已经new了，只不过内部为空
 	- 推荐直接赋值,String s = 'aa'，除非有必要才会创建String对象，String s = new String("aa")
@@ -276,12 +282,17 @@ while(scFile.hasNextLine) {
 	sb.replace(5, 6, ",");
 	sb.delete(5, 6);
 	sb.reverse();
+	sb.setCharAt(i,'1'); 
 	sb.setLength(10); //返回10位的sb
 	```
 - Math类
 - Random类
 - BigDecimal类
 - Calendar类
+- Integer类
+	- 进制之间的转换
+	 	- 十进制转二进制 Integer.ToBinaryString(int i)
+	 	- 二进制转十进制 Integer.valueOf(String str,2).toString() 
 
 ### 7.5 正则表达式
 
@@ -307,7 +318,8 @@ boolean removeAll(Collection c); //删除集合c中的所有元素
 boolean retainAll(Collection c); //删除集合c中不包含的元素
 int size();
 Iterator iterator(); //返回Iterator对象
-Object[] toArray(); //集合转换成数组，所有集合元素变为对应的数组元素
+Object[] toArray(); //集合转换成数组，所有集合元素变为对应的数组元素,变成了Object
+T[] toArray(T[] a); //集合转换成类型为T的数组 eg:res.ToArray(new String[0])
 ```
 - Iterator的方法
 ```java
@@ -442,8 +454,42 @@ Collections.frequency(list, -5);
 	List<String> list = new ArrayList<>();
 	Map<Integer, String> map = new HashMap<>();
 	```
+- 深入泛型
+	- 可以为任何类，接口增加泛型声明
+
+- 泛型方法
+
+
 ## 第十章 异常处理
-- 
+- 异常处理机制
+	- try...catch捕获异常,先捕获小异常，再捕获大异常
+	```java
+	try{
+		// 业务实现代码
+	}catch (SubException e1) {
+		// 异常处理块1
+	}catch (SubException e2) {
+		// 异常处理块2
+	}finally {
+		// 资源回收
+	}
+	```
+	- 访问异常信息
+	```java
+	getMessage() //返回异常的详细描述信息
+	printStactTrace() //返回异常的跟踪栈信息
+	```
+	- 使用finally回收物理资源
+		- 垃圾回收机制回收内存，但是如数据库连接，网络连接，磁盘文件等物理资源必须显示回收
+		- finally一定会执行
+
+- Checked异常和Runtime异常体系
+
+- 使用throw抛出异常
+	- 与throws有区别，throw是自行抛出的异常
+	- throw new Exception()
+
+
 
 
 
