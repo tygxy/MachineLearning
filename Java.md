@@ -489,7 +489,70 @@ Collections.frequency(list, -5);
 	- 与throws有区别，throw是自行抛出的异常
 	- throw new Exception()
 
+## 第十五章 输入/输出
 
+### 15.1 File类
+
+- 访问文件名相关的方法
+```java
+String getName(); //返回File对象所表示的文件名或路径名
+String getPath(); //返回路径名
+String getAbsulutePath(); //绝对路径名
+boolean renameTo(File newName); //重命名
+```
+- 文件检测相关的方法
+```java
+boolean exists();
+boolean isFile();
+boolean isDirectory();
+```
+- 文件操作相关的方法
+```java
+boolean createNewFile(); //如果File对象对应的文件不存在，就创建一个File对象指定的新文件
+boolean delete();
+```
+- 目录操作相关的方法
+```
+boolean mkdir();  //创建File目录
+String[] list(); //返回File对象所有子文件名
+File[] listFile(); //返回File数组
+```
+
+### 15.2 理解Java的IO流
+- InputStream/Reader 所有输入流的基类，前者是字节输入流，后者是字符输入流
+  OutputStream/Writer 所有输出流的基类，前者是字节输出流，后者是字符输出流
+
+### 字节流和字符流
+- InputStream/Reader是抽象基类，不能创建实例
+	- InputStream方法，实例是FileInputStream
+	```java
+	int read() //读取单个字节
+	int read(byte[] b) //读取b.length个字节的数据，并存储在b中
+	```
+	- Reader方法，实例是FileReader
+	```java
+	int read()
+	int read(char[] chuf)
+
+	// example
+    FileReader reader = new FileReader("/Users/guoxingyu/Documents/work/java/CrazyJava/Ch04/test/hello.txt");
+    char[] chuf = new char[100];  // 每次只取这么多字符
+    int hasRead = 0;
+    while ((hasRead = reader.read(chuf)) > 0) {
+        System.out.println(new String(chuf, 0 , hasRead));
+    }
+    reader.close()
+	```
+- OutputStream和Writer
+	- Writer方法，实例是FileWriter
+	```java
+	void write(String str);
+
+	// example
+    FileWrite wr = new FileWriter("/Users/guoxingyu/Documents/work/java/CrazyJava/Ch04/test/test.txt");
+    wr.write("我是郭大宝");
+    wr.close() // 必加，否则写不进去
+	```
 
 
 
