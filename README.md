@@ -6,3 +6,5 @@
 ## [4. EnsembleLearning](https://github.com/tygxy/MachineLearning/blob/master/EnsembleLearning.md)
 ## [5. Spark](https://github.com/tygxy/MachineLearning/blob/master/Spark.md)
 ## [6. Java](https://github.com/tygxy/MachineLearning/blob/master/Java.md)
+## [7. Python](https://github.com/tygxy/MachineLearning/blob/master/Python.md)
+## [8. MySQL](https://github.com/tygxy/MachineLearning/blob/master/MySQL.md)
