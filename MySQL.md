@@ -106,6 +106,32 @@
 - 嵌套在其他查询中的查询
 
 ## 第十五章 联结表
+- 外键 某个表的一列，它包含另一个表的主键
+- 内部联结 
+	- SELECT vend_name, prod_name, prod_price FROM vendors INNER JOIN products ON vendors.vend_id = products.vend_id;
+	- SELECT vend_name, prod_name, prod_price FROM vendors,products WHERE vendors.vend_id = products.vend_id;
+- 使用表别名
+	- SELECT vend_name, prod_name, prod_price FROM vendors AS a,products AS b WHERE a.vend_id = b.vend_id;
+- 自联结
+	- SELECT p1.prod_id, p1.prod_name FROM products AS p1, products AS p2 WHERE p1.vend_id = p2.vend_id AND p2.prod_id = 'DTNTR';
+- 自然联结
+	- 列只能返回一次，需要人工进行筛选
+- 外部联结
+	- SELECT customers.cust_id, orders.order_num FROM customers LEFT OUTER JOIN orders ON customers.cust_id = orders.cust_id  // customers表中的所有行都包括
+- 带聚集函数的联结
+	- SELECT customers.cust_name, customers.cust_id,COUNT(order.order_num) AS num_ord FROM customers LEFT OUTER JOIN orders ON customers.cust_id = orders.cust_id GROUP BY customers.cust_id
+
+## 第十七章 组合查询
+- 
+
+
+
+
+
+
+
+
+
 
 ## 第十九章 插入数据
 - INSERT INTO tableName (columnName1, columnName2) VALUES (val1, val2);
