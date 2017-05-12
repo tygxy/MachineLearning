@@ -39,6 +39,23 @@
 	- WHERE columnName LIKE 'jet_';
 
 ## 第九章 用正则表达式搜索
+- REGEXP
+	- SELECT prod_name FROM products WHERE prod_name REGEXP '1000|2000'; // 包含1000或者2000
+	- SELECT prod_name FROM products WHERE prod_name REGEXP '[0-9] Ton'; // 0-9可选，^表示非，[a-z]
+	- 如果需要匹配特殊字符，比如.、|、[]等，用\\为前导，例如\\-,就是查找-
+	- \\f 换页 \\n 换行 \\r 回车 \\t 制表
+	- 匹配字符类
+		- [:alnum:] // 任意字母数字
+		- [:alpha:] // 任意字母
+		- [:digit:] // 任意数字
+	- 重复元字符 *(0或多) +(1或多) ？(0或1) {n} {n,} {n,m} 
+		- sticks? // ?前面的字符出现0次或者1次 即匹配出sticks和stick
+		- [[:digit:]]{4} // 4位数字
+	- 定位符	^ 文本开始， $ 文本结尾，[[:<:]] 词的开始，[[:>:]] 词的结尾
+		- REGEXP '^[0-9\\.]' // 以0-9和.开头
+	- LIKE 匹配整个字符串，而REGEXP匹配的是字符子串
+	
+
 
 ## 第十章 创建计算字段
 - 拼接字段
@@ -122,16 +139,13 @@
 	- SELECT customers.cust_name, customers.cust_id,COUNT(order.order_num) AS num_ord FROM customers LEFT OUTER JOIN orders ON customers.cust_id = orders.cust_id GROUP BY customers.cust_id
 
 ## 第十七章 组合查询
-- 
+- UNION
+	- SELECT vend_id, prod_id, prod_price FROM products WHERE prod_price <= 5 UNION SELECT vend_id, prod_id, prod_proce FROM products WHERE vend_id IN (1001,1002);  //两个SELECT查询的结果，组合成单个查询结果返回
+	- UNION中的每个查询必须包含相同的类，表达式或聚集函数
+	- UNION会默认去重
+	- 排序输出时，ORDER BY加在最后一个SELECT
 
-
-
-
-
-
-
-
-
+## 第十八章 全文本搜索
 
 ## 第十九章 插入数据
 - INSERT INTO tableName (columnName1, columnName2) VALUES (val1, val2);
@@ -143,7 +157,34 @@
 - TRUNCATE tableName // 删除所有行
 
 ## 第二十一章 创建和操纵表
-- 
+- 创建表
+```
+CREATE TABLE tableName 
+(
+	columnName1   int   NOT NULL  AUTO_INCREMENT,
+	columnName2   char(50) NULL ,
+	columnName3   int   NOT NULL   DEFAULT 1,
+	...
+	PRIMARY KEY(olumnName1)
+)
+```
+- 更新表
+	- ALTER TABLE tableName ADD columnName char(50); //添加新列
+	- ALTER TABLE tableName DROP COLUMN columnName; //删除新列
+	- 定义外键
+	```
+		ALTER TABLE tableName1 
+		ADD CONSTRAINT fk_tableName1_tableName2
+		FOREIGN KEY (columnName) REFERENCES tableName2 (columnName);
+
+	```
+- 删除表
+	- DROP TABLE tableName
+- 重命名表
+	- RENAME TABLE tableName TO newtableName
+	
+
+
 
 
 
