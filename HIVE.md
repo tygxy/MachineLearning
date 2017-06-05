@@ -31,7 +31,17 @@ FROM table_reference
 	```
 - 删除hive drop table tableName;
 - 清空hive内部表 truncate table tableName;
-- 清空hive外部表 
+- 清空hive外部表
+- 创建内部表
+```
+hive > create table inner_table(userid string);
+hive > load data inpath '/xx/xx' into table inner_table partition(dt = '2017-06-05');
+``` 
+- 创建外部表
+```
+hive > create external table outer_table(userid string) partitioned by (dt string) fields terminated by '\t';
+hive > alter table outer_table add partition (dt = '2017-06-05') location '/xx/xx';
+```
 
 
 
