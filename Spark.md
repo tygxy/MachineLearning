@@ -1,5 +1,11 @@
 # Spark快速大数据分析
 
+## 执行spark程序
+- scala
+```
+ spark-submit --master yarn-cluster --class NewsRecommend ./NewsRecommend.jar   /qcdq/guoxingyutest/newsratings.csv  /qcdq/guoxingyutest/output
+```
+
 ## 第一章 Spark数据分析导论
 
 - Spark各组件的组成 
