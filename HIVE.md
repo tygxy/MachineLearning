@@ -116,6 +116,23 @@ hive > alter table outer_table add partition (dt = '2017-06-05') location '/xx/x
 	/opt/cloudera/parcels/CDH-5.7.5-1.cdh5.7.5.p0.3/lib/sqoop/bin/sqoop export --connect 'jdbc:mysql://192.168.120.2/xy_log_analytics' --username 'java_write_pc' --password 's#()Grermsfl,<DrWcelPSeWe,' --table serial_day_stat --columns day,serialid,platform,pv,uv --export-dir /qcdq/sqoop2/serialDayStat/$yesterday --fields-terminated-by '\001' --input-null-string '\\N' --input-null-non-string '\\N' -m 1  --update-key day,serialid,platform --update-mode allowinsert
 	```
 
+## UDF
+- 如何使用UDF
+```
+/opt/cloudera/parcels/CDH-5.7.5-1.cdh5.7.5.p0.3/lib/hive/bin/hive -e "
+create temporary function getDistTimeId as 'udfs.DistTimeId';
 
+insert overwrite directory '/qcdq/middledata/ordersource/$yesterday'
+select dt,deviceid,dealer_order_id,campsrc,regexp_replace(kwd,'\001','') as kwd,svid,dist_time from(
+select temp.dt,deviceid ,dealer_order_id, dist_time,campsrc,kwd,svid,getDistTimeId(temp.dealer_order_id) as id from
+(select o.dt, o.create_time,o.deviceid,w.campsrc,w.kwd,w.sdt,w.svid,o.dealer_order_id,(unix_timestamp(o.create_time) - unix_timestamp(w.sdt)) as dist_time from qcdq.webspv w
+join qcdq.dealerorderall o on w.cookieid = o.deviceid 
+where (o.dt = '$yesterday' and w.dt = '$yesterday') and (w.campsrc is not null and  w.campsrc !='') and unix_timestamp(o.create_time) - unix_timestamp(w.sdt) > 0
+order by deviceid,dealer_order_id,dist_time) temp
+) t where id =1;
+
+alter table qcdq.semorder add partition(dt='$yesterday') location '/qcdq/middledata/ordersource/$yesterday';
+"
+```
 
 
