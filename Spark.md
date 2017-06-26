@@ -3,7 +3,7 @@
 ## 执行spark程序
 - scala
 ```
- spark-submit --master yarn-cluster --class NewsRecommend ./NewsRecommend.jar   /qcdq/guoxingyutest/newsratings.csv  /qcdq/guoxingyutest/output
+spark-submit --master yarn-cluster  --driver-memory 8G --num-executors 100 --executor-cores 5 --executor-memory 4G  --class NewsRecommend  ./NewsRecommend.jar
 ```
 
 ## 第一章 Spark数据分析导论
