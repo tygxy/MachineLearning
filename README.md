@@ -8,3 +8,5 @@
 ## [6. Java](https://github.com/tygxy/MachineLearning/blob/master/Java.md)
 ## [7. Python](https://github.com/tygxy/MachineLearning/blob/master/Python.md)
 ## [8. MySQL](https://github.com/tygxy/MachineLearning/blob/master/MySQL.md)
+## [9. Hive](https://github.com/tygxy/MachineLearning/blob/master/Hive.md)
+## [10. Scala](https://github.com/tygxy/MachineLearning/blob/master/Scala.md)

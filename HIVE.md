@@ -115,6 +115,31 @@ hive > alter table outer_table add partition (dt = '2017-06-05') location '/xx/x
 	```
 	/opt/cloudera/parcels/CDH-5.7.5-1.cdh5.7.5.p0.3/lib/sqoop/bin/sqoop export --connect 'jdbc:mysql://192.168.120.2/xy_log_analytics' --username 'java_write_pc' --password 's#()Grermsfl,<DrWcelPSeWe,' --table serial_day_stat --columns day,serialid,platform,pv,uv --export-dir /qcdq/sqoop2/serialDayStat/$yesterday --fields-terminated-by '\001' --input-null-string '\\N' --input-null-non-string '\\N' -m 1  --update-key day,serialid,platform --update-mode allowinsert
 	```
+- hive to hive
+```
+// 建表
+hive >CREATE EXTERNAL TABLE qcdq.newsinfo(
+       	 >uid STRING,
+		 >newsid STRING,
+	     >)  
+	     >PARTITIONED BY(dt STRING)
+	     >LOCATION '/qcdq/middladata/newsinfo'
+
+// 查询数据到HDFS
+
+/opt/cloudera/parcels/CDH-5.7.5-1.cdh5.7.5.p0.3/lib/hive/bin/hive -e "
+insert overwrite directory '/qcdq/middledata/newsinfo/$yesterday'
+select distinct uid,split(exv,'\\\\|')[1] as newsid from qcdq.webspv where dt = '$yesterday' and pageid = 1405 order by uid 
+"  
+
+// 导入表，并建立分区
+/opt/cloudera/parcels/CDH-5.7.5-1.cdh5.7.5.p0.3/lib/hive/bin/hive -e "
+load data inpath '/qcdq/middledata/newsinfo/$yesterday' into table qcdq.newsinfo partition(dt='$yesterday')
+"
+
+
+
+```
 
 ## UDF
 - 如何使用UDF
