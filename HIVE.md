@@ -136,10 +136,30 @@ select distinct uid,split(exv,'\\\\|')[1] as newsid from qcdq.webspv where dt = 
 /opt/cloudera/parcels/CDH-5.7.5-1.cdh5.7.5.p0.3/lib/hive/bin/hive -e "
 load data inpath '/qcdq/middledata/newsinfo/$yesterday' into table qcdq.newsinfo partition(dt='$yesterday')
 "
+```
 
+- hive to hbase
+```
+// 建立外部表
+hive >CREATE EXTERNAL TABLE qcdq.newsrecommend(
+       	 >uid STRING,
+		 >recommend STRING,
+	     >)  
+	     >FIELDS TERMINATED BY ','
+	     >LOCATION '/qcdq/recommend/newsrecommend/output'
 
+// 建立hive和hbase映射表
+CREATE TABLE qcdq.hive_hbase_newsrecommend(key string, value string)     
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'   
+WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,cf1:val")   
+TBLPROPERTIES ("hbase.table.name" = "qcdq_newsrecommend");
+
+// 利用hive导入数据
+insert overwrite table qcdq.hive_hbase_newsrecommend select * from qcdq.newsrecommend;
 
 ```
+
+
 
 ## UDF
 - 如何使用UDF
