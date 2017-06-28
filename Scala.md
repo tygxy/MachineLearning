@@ -47,5 +47,97 @@ println(tuple._1)  // 输出‘BigData’
 	myMutableSet += "Cloud Computing"
 
 	```
-- 
+- Map
+	- 可变映射
+	```
+	import scala.collection.mutable.Map
+	val university2 = Map("XMU" -> "Xiamen University", "THU" -> "Tsinghua University","PKU"->"Peking University")
+	university2("XMU") = "Ximan University" //更新已有元素的值
+	university2("FZU") = "Fuzhou University" //添加新元素
+
+	// 循环遍历操作
+	// for ((k,v) <- 映射) 语句块
+
+	for ((k,v) <- university) printf("Code is : %s and name is: %s\n",k,v)
+	for (k<-university.keys) println(k)
+	for (v<-university.values) println(v)
+
+	```
+- 迭代器(Iterator)
+```
+// while循环
+val iter = Iterator("Hadoop","Spark","Scala")
+while (iter.hasNext) {
+    println(iter.next())
+}
+
+// for循环
+val iter = Iterator("Hadoop","Spark","Scala")
+for (elem <- iter) {
+    println(elem)
+}
+```
+
+## 3.类
+- 创建类
+```
+class Counter {
+    private var value = 0
+    increment(step: Int): Unit = { value += step}
+    def current(): Int = {value}
+}
+```
+- 方法的返回值，不需要靠return语句，方法里面的最后一个表达式的值就是方法的返回值
+- 创建对象
+```
+val myCounter = new Counter
+myCounter.increment(5) //或者也可以不用圆括号，写成myCounter.increment
+println(myCounter.current)
+```
+
+## 4.模式匹配
+```
+for (elem <- List(9,12.3,"Spark","Hadoop",'Hello)){
+    val str  = elem match{
+        case i: Int => i + " is an int value."
+        case d: Double => d + " is a double value."
+        case "Spark"=> "Spark is found."
+        case s: String => s + " is a string value."
+        case _ => "This is an unexpected value."
+    }
+println(str)    
+}
+```
+
+## 5.针对集合的操作
+
+### 5.1 遍历操作
+- 列表的遍历
+	- for循环遍历
+	```
+	val list = List(1, 2, 3, 4, 5)
+	for (elem <- list) println(elem)
+	```
+	- foreach遍历
+	```
+	val list = List(1, 2, 3, 4, 5)
+	list.foreach(elem => println(elem))
+	```
+- 映射的遍历
+```
+val university = Map("XMU" -> "Xiamen University", "THU" -> "Tsinghua University","PKU"->"Peking University")
+
+// for
+for ((k,v) <- university) printf("Code is : %s and name is: %s\n",k,v)
+
+// foreach
+university foreach {case(k,v) => println(k+":"+v)}
+```
+
+### 5.2 map和flatmap
+```
+val books = List("Hadoop", "Hive", "HDFS")
+books.map(s => s.toUpperCase)
+```
+
 
