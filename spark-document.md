@@ -29,8 +29,24 @@ val sc = new SparkContext(conf)
 - RDD操作
 	- 基础
 		- 两种类型操作，transformations和actions
-		- RDDs.cache()持久化到内存中
 		- RDDs.collect()集中在一个节点上
-		- 
+		- transformations的方法
+		- action的方法
+	- RDD持久化
+		- persist(),可以设置存储级别
+		- cache()
+- 共享变量
+	- Broadcast variables(广播变量)
+	```
+	val newRDDName = sc.broadcast(RDDName)
+	```
+	- Accumulators(累加器)
+
+## 3. Spark Streaming
+
+## 4. Spark SQL
+
+## 5. MLlib
+
 
 
