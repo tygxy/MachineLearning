@@ -43,6 +43,8 @@ hive > create external table outer_table(userid string) partitioned by (dt strin
 hive > alter table outer_table add partition (dt = '2017-06-05') location '/xx/xx';
 ```
 
+- 中文别名 `列名`，如果在shell中执行， \`列名\`
+
 
 
 ## 2.HIVE-MYSQL
