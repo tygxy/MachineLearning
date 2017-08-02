@@ -131,13 +131,27 @@ hive >CREATE EXTERNAL TABLE qcdq.newsrecommend(
 	     >LOCATION '/qcdq/recommend/newsrecommend/output'
 
 // 建立hive和hbase映射表
-CREATE TABLE qcdq.hive_hbase_newsrecommend(key string, value string)     
+CREATE TABLE qcdq.hive_hbase_newsrecommend(key string, value string)     
 STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'   
 WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,cf1:val")   
 TBLPROPERTIES ("hbase.table.name" = "qcdq_newsrecommend");
 
 // 利用hive导入数据
 insert overwrite table qcdq.hive_hbase_newsrecommend select * from qcdq.newsrecommend;
+```
+
+```
+CREATE TABLE employee_hbase 
+(key string,age int,sex string)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' 
+WITH SERDEPROPERTIES
+("hbase.columns.mapping" = ":key,info:age,info:sex") TBLPROPERTIES ("hbase.table.name"="employee");
+
+其中 Hive 表名：employee_hbase 有 key,age,sex 三列
+HBase表名：employee_hbase 有 rowkey = key 列族 info 列 age sex
+名称一一对应
+
+利用 insert into table employee_hbase select name as key,age,sex from employee;可以将已有Hive 数据导入到HBase中
 ```
 
 ## 8.Hive SQL
