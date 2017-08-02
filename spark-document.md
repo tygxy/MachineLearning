@@ -46,6 +46,18 @@ val sc = new SparkContext(conf)
 
 ## 4. Spark SQL
 
+### 4.1 概述
+- Dataset是一个分布式数据集合，DataFrame是一个Dataset组织成的指定列，相当与表
+
+### 4.2 入门指南
+
+### 4.3 数据源
+
+### 4.4 性能调优
+
+### 4.5 分布式SQL引擎
+
+
 ## 5. MLlib
 
 
