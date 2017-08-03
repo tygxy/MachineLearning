@@ -162,6 +162,15 @@ select t6.dt,t6.pageid,t6.type,t6.pv,t6.uv,t6.svid from
 select collect_set(dt)[0] as dt,pageid,1 as type,count(1) as pv,count(distinct uid) as uv,svid from qcdq.webspv where dt = '2017-07-30' and (svid = 'xywww' or svid = 'xym') and campsrc != 'one_net-pc' and seq = 1 group by pageid,svid) t5 ) t6 where t6.num <= 50
 ```
 
+- 多行合并成一行  concat_ws
+```
+select concat(uid,',',getNewsRecommend(newsids,recommends)) from (
+select uid,concat_ws('-',collect_set(t.newsid)) as newsids , concat_ws('-',collect_set(t.recommend)) as recommends from
+(select t1.uid,t1.newsid,t2.recommend,t1.dt from
+(select * from qcdq.newsinfo where dt = '2017-08-02') t1 left join qcdq.newsrelation t2 on t1.newsid = t2.newsid) t where t.recommend != ' '
+group by t.uid) tmp
+```
+
 
 
 
