@@ -554,6 +554,26 @@ File[] listFile(); //返回File数组
     wr.close() // 必加，否则写不进去
 	```
 
+## 总结
+
+### Java集合框架
+
+#### 总体框架
+![](raw/1.jpg?raw=true)
+
+#### List
+- ArrayList
+- LinkedList
+
+#### Set
+- HashSet
+- LinkedHashSet
+- TreeSet
+	- 是一种排序二叉树，有序
+
+#### Map
+- HashMap
+- TreeMap
 
 
 
