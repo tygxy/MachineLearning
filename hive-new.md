@@ -24,6 +24,13 @@ alter table databaseName.tableName add partition(dt='2017-07-07') location '/qcd
 // 在当前列的末尾，分区列之前增加新的列
 alter table databaseName.tableName add columns (sdt string)
 ```
+- 外部表，已经有分区了，如果添加字段
+```
+- 正常添加字段
+- 删除对应hdfs上的数据
+- alter table test_table drop partition (day_key='20131201');
+- 重新跑程序生成数据
+```
 
 ## 3.表分区操作
 
