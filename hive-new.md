@@ -169,7 +169,7 @@ select t6.dt,t6.pageid,t6.type,t6.pv,t6.uv,t6.svid from
 select collect_set(dt)[0] as dt,pageid,1 as type,count(1) as pv,count(distinct uid) as uv,svid from qcdq.webspv where dt = '2017-07-30' and (svid = 'xywww' or svid = 'xym') and campsrc != 'one_net-pc' and seq = 1 group by pageid,svid) t5 ) t6 where t6.num <= 50
 ```
 
-- 多行合并成一行  concat_ws
+- 多行合并成一行  concat_ws('-',collect_set(col))
 ```
 select concat(uid,',',getNewsRecommend(newsids,recommends)) from (
 select uid,concat_ws('-',collect_set(t.newsid)) as newsids , concat_ws('-',collect_set(t.recommend)) as recommends from
@@ -178,6 +178,43 @@ select uid,concat_ws('-',collect_set(t.newsid)) as newsids , concat_ws('-',colle
 group by t.uid) tmp
 ```
 
+## 9.Hive 函数
+- ROW_NUMBER() 
+```
+## 从1开始，按照顺序，生成分组内记录的排序()
+select
+	cookieid,
+	createtime,
+	pv,
+	row_number() over(partition by cookieid order by pv desc) as rn
+	from tableName
+```
+
+- RANK()
+```
+## RANK() 生成数据项在分组中的排名，排名相等会在名次中留下空位
+select
+	cookieid,
+	createtime,
+	pv,
+	rank() over(partition by cookieid order by pv desc) as rn
+	from tableName
+```
+
+- ROUND(col,2) 指定精度取整函数
+
+- 条件函数 CASE
+```
+case when 条件 then 条件为真时的值 else 条件为假时的值 end 
+```
+- SPLIT
+```
+split('a,b,c,d',',')[0] 得到a
+```	
+- CONCAT_WS()
+```
+concat_ws(',',str1,ste2)
+```
 
 
 
