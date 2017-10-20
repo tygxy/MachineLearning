@@ -94,7 +94,15 @@ for line in result:
 	print line
 ```
 
+# Spark技术内幕
 
+## 第1章 spark简介
+- 深入理解driver,cluster manager,executor,job,stages,task的关系
+## 第2章 spark学习环境的搭建
+## 第3张 rdd实现详解
+- 分布式数据集的容错性有两种方式：数据检查点和记录数据的更新（17页）
+- RDD是只读，分区的集合；一个分区就是一个Task处理的基本单元，分区决定并行计算的颗粒
+- partitioner是RDD的分区函数，一种是基于哈希的HashPartitioner;一种是基于范围的RangePartitioner,并且分区函数只对key-value的RDD
 
 
 
