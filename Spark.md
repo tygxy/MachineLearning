@@ -101,7 +101,7 @@ for line in result:
 ## 第2章 spark学习环境的搭建
 ## 第3张 rdd实现详解
 - 分布式数据集的容错性有两种方式：数据检查点和记录数据的更新（17页）
-- RDD是只读，分区的集合；一个分区就是一个Task处理的基本单元，分区决定并行计算的颗粒
+- RDD是只读，分区的集合；一个分区就是一个Task处理的基本单元，分区决定并行计算的颗粒，partition和task数量一致
 - partitioner是RDD的分区函数，一种是基于哈希的HashPartitioner;一种是基于范围的RangePartitioner,并且分区函数只对key-value的RDD
 - reduceByKey和groupByKey区别
 	- ReduceByKey有本地merge，但是groupByKey是所有键值对都需要移动；此外groupByKey不能接受自定义函数，只能分组后再map,但是ReduceByKey后面可以接自定义函数
@@ -114,7 +114,16 @@ for line in result:
 	- 子RDD的partition依赖多个parent RDD的partition，即为宽依赖，需要shuffle
 - 划分stage的依据 是否有shuffle过程(是否有宽依赖)，
 - 划分job的依据 是否有动作
-## 第4章 Scheduler模块详解
+## 第4章 Scheduler(任务调度)模块详解
+- stage划分
+	- 划分依据 shuffle
+	- 划分过程从一个job的最后一个RDD开始，根据它的依赖关系，倒着往前推
+- Task是集群运行的基本单元，有ShuffleMapTask和ResultTask
+## 第5章 Deploy模块详解
+- Cluster Manager部署方式有standalone,local,yarn,EC2,Mesos等
+- yarn Cluster模式，yarn Client模式，区别在于用户提交的application的spark Context在本机运行，适合application与本地有交互的场景
+## 第6章 Executor模块详解
+- 
 
 
 
