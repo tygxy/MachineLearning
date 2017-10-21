@@ -103,6 +103,19 @@ for line in result:
 - 分布式数据集的容错性有两种方式：数据检查点和记录数据的更新（17页）
 - RDD是只读，分区的集合；一个分区就是一个Task处理的基本单元，分区决定并行计算的颗粒
 - partitioner是RDD的分区函数，一种是基于哈希的HashPartitioner;一种是基于范围的RangePartitioner,并且分区函数只对key-value的RDD
+- reduceByKey和groupByKey区别
+	- ReduceByKey有本地merge，但是groupByKey是所有键值对都需要移动；此外groupByKey不能接受自定义函数，只能分组后再map,但是ReduceByKey后面可以接自定义函数
+- 常见算子
+	- map,filter,flatMap,union,distinct,groupByKey,reduceByKey,sortByKey,join
+	- reduce,collect,count,take,saveAsTextFile,countByKey,foreach
+- 根据计算逻辑生成DAG
+- 宽依赖，窄依赖
+	- 每个parent RDD的partition最多被子RDD的一个partition使用，即为窄依赖
+	- 子RDD的partition依赖多个parent RDD的partition，即为宽依赖，需要shuffle
+- 划分stage的依据 是否有shuffle过程(是否有宽依赖)，
+- 划分job的依据 是否有动作
+## 第4章 Scheduler模块详解
+
 
 
 
