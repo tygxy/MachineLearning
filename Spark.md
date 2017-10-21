@@ -123,6 +123,9 @@ for line in result:
 - Cluster Manager部署方式有standalone,local,yarn,EC2,Mesos等
 - yarn Cluster模式，yarn Client模式，区别在于用户提交的application的spark Context在本机运行，适合application与本地有交互的场景
 ## 第6章 Executor模块详解
+- 对于同一个application，在一个worker上只有一个executor,带不代表一个物理节点只有一个executor，可以在一个物理节点部署多个worker
+- 参数设置 spark.executor.memory 最多使用内存大小，每个executor上支持的任务数量取决于executor持有的CPU core的数量
+## 第7章 Shuffle模块详解
 - 
 
 
