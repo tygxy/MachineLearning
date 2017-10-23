@@ -126,7 +126,15 @@ for line in result:
 - 对于同一个application，在一个worker上只有一个executor,带不代表一个物理节点只有一个executor，可以在一个物理节点部署多个worker
 - 参数设置 spark.executor.memory 最多使用内存大小，每个executor上支持的任务数量取决于executor持有的CPU core的数量
 ## 第7章 Shuffle模块详解
+- spark.shuffle.manage
+	- 两种shuffle方式，hash based shuffle和sort based shuffle
+- spark.shuffle.spill
+	- 默认是true，指shuffle过程中如果内存中数据超过阈值，是否将部分数据临时存入外部存储
+- spark.shuffle.memoryFraction
+	- 当shuffle过程中内存达到总内存的多少比例时开始spill，相当于设置shuffle站内存大小
+## 第8章 Storage模块详解
 - 
+	
 
 
 
