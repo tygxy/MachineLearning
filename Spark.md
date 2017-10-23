@@ -133,8 +133,10 @@ for line in result:
 - spark.shuffle.memoryFraction
 	- 当shuffle过程中内存达到总内存的多少比例时开始spill，相当于设置shuffle站内存大小
 ## 第8章 Storage模块详解
-- 
-	
+- 存储级别
+	- disk_only,memory_only,memory_only_ser,memory_and_disk,memory_and_disk_ser
+- spark.storage.memoryFraction
+	- 决定内存中有多少用于RDD cache，默认0.6
 
 
 
