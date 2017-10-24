@@ -174,7 +174,10 @@ for line in result:
 	  --conf spark.storage.memoryFraction=0.5 \
 	  --conf spark.shuffle.memoryFraction=0.3 \
 	```
-
+## 高级篇
+- 数据倾斜 根据stage定位到出现倾斜的位置，通过抽样查看key的分布(rdd1.sample(false, 0.1).countByKey())，来确定解决方案
+	- 使用Hive ETL预处理数据
+	- 
 
 
 
