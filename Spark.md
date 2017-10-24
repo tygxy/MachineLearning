@@ -162,6 +162,7 @@ for line in result:
 	- spark.default.parallelism 500-1000 该参数用于设置每个stage的默认task数量，设置该参数为num-executors * executor-cores的2~3倍较为合适
 	- spark.storage.memoryFraction RDD持久化数据在Executor内存中能占的比例
 	- spark.shuffle.memoryFraction shuffle占内存的比例
+	- spark.sql.shuffle.partitions sql的并行度设置
 	- 参考
 	```
 	./bin/spark-submit \
@@ -176,8 +177,15 @@ for line in result:
 	```
 ## 高级篇
 - 数据倾斜 根据stage定位到出现倾斜的位置，通过抽样查看key的分布(rdd1.sample(false, 0.1).countByKey())，来确定解决方案
-	- 使用Hive ETL预处理数据
-	- 
+	- 使用Hive ETL预处理数据(将shuffle过程转给ETL)
+	- 过滤少数导致倾斜的key
+	- 提高shuffle操作的并行度，设置多task去执行任务，但是如果某个key量特别大，那还是会在一个task中执行任务，没法根本解决数据倾斜
+	- 【聚合类】两阶段聚合（局部聚合+全局聚合）
+		- 试用场景：对RDD执行reduceByKey等聚合类shuffle算子或者在Spark SQL中使用group by语句进行分组聚合时
+		- 解决思路：对key赋值随机前缀 -> 聚合 -> 去掉前缀 -> 聚合
+	- 【join类】将reduce join转为map join
+		
+	 
 
 
 
