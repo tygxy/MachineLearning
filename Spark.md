@@ -155,6 +155,7 @@ for line in result:
 	- 广播大变量 算子使用外部大变量时，使用广播保证每个executor有一份变量由task共用
 - 资源调优
 	- 一个CPU core同一时间只能执行一个线程。而每个Executor进程上分配到的多个task，都是以每个task一条线程的方式，多线程并发运行的
+	- 每一台host上面可以并行N个worker，每一个worker下面可以并行M个executor，task们会被分配到executor上面 去执行
 	- num-executors 设置executor数量，50-100
 	- executor-memory executor内存，4-8G
 	- executor-cores executor核数 2-4 决定了每个Executor进程并行执行task线程的能力
