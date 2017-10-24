@@ -184,8 +184,21 @@ for line in result:
 		- 试用场景：对RDD执行reduceByKey等聚合类shuffle算子或者在Spark SQL中使用group by语句进行分组聚合时
 		- 解决思路：对key赋值随机前缀 -> 聚合 -> 去掉前缀 -> 聚合
 	- 【join类】将reduce join转为map join
-		
-	 
+		- 试用场景：join操作中的一个RDD或表的数据量比较小（比如几百M或者一两G）
+		- 解决思路：driver去collect较小的rdd1 -> Broadcast(rdd1) -> 大rdd2去map匹配广播变量(首先读取广播变量->创建map1保存rdd1的值->获取当前rdd2的k/v->从map1取出)
+		- 注：上述仅仅适用于小rdd中的key没有重复，全部是唯一的场景，如果rdd1中有多个相同的key，那么就得用flatMap类的操作，在进行join的时候不能用map，而是得遍历rdd1所有数据进行join，rdd2中每条数据都可能会返回多条join后的数据
+	- 【join类】采样倾斜key并分拆join操作
+		- 试用场景：两个rdd都比较大，其中一个rdd少数key量大，另外一个rdd分布均匀
+		- 解决思路：rdd1中出现倾斜的key单独取出->随机前缀->rdd2中这些key也取出->每条数据膨胀n倍，按顺序加前缀->join后，去掉前缀->其他key正常join->union
+	- 【join类】使用随机前缀和扩容RDD进行join
+	 	- 试用场景：两个rdd都比较大，一个rdd大数key都倾斜，另外一个rdd分布均匀
+		- 解决思路：同上
+	- 【聚合类】去重+聚合转为reduceByKey
+		- 试用场景：按key分组，组内需要对type做去重后再聚合，某些key数据倾斜
+		- 解决思路：构造(key+type,1)->reduceBykey->(key,1)->reduceBykey
+- shuffle调优
+	- shuffle计算引擎分为HashShuffleManager和SortShuffleManager，区别在于前者会产生大量中间磁盘文件，进而由大量的磁盘IO操作影响了性能；后者会合并成一个磁盘文件，在下一个Stage中的Shuffle Read拉数据时，可以索引部分数据即可
+	
 
 
 
