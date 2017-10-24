@@ -1,4 +1,4 @@
-# Spark快速大数据分析
+# 《Spark快速大数据分析》
 
 ## 执行spark程序
 - scala
@@ -49,7 +49,7 @@ spark-submit --master yarn-cluster  --driver-memory 8G --num-executors 100 --exe
 
 ## 第四章 键值对RDD的操作
 
-- 创建PairRDD
+- 创建PairRDDr
 	- RDD.map(lambda x: (x.split(" ")[0], x.split(" ")[1])) # 通过map创建键值对
 - 常见操作
 	- reduceByKey(func)
@@ -94,7 +94,7 @@ for line in result:
 	print line
 ```
 
-# Spark技术内幕
+# 《Spark技术内幕》
 
 ## 第1章 spark简介
 - 深入理解driver(主控程序，提交job,将job转换成Task,协调executor中Task调度),cluster manager,executor,job,stages,task的关系
@@ -140,9 +140,40 @@ for line in result:
 - spark.storage.memoryFraction
 	- 决定内存中有多少用于RDD cache，默认0.6
 
-
-
-
+# 《Spark性能优化指南-初级篇/高级篇》
+- 初级篇 https://tech.meituan.com/spark-tuning-basic.html
+- 高级篇 https://tech.meituan.com/spark-tuning-pro.html
+## 初级篇
+- 开发调优
+	- 持久化选择的策略 memory -> memory_ser -> memory_and_disk_ser
+	- 尽量少用shuffle算子，尽量使用有预聚合的shuffle算子(reduceByKey)
+	- 使用高性能的算子
+		- 使用reduceByKey/aggregateByKey替代groupByKey
+		- 使用filter之后进行coalesce操作
+		- 使用repartitionAndSortWithinPartitions替代repartition与sort类操作(官方建议，如果需要在repartition重分区之后，还要进行排序)
+		- 使用mapPartitions替代普通map/使用foreachPartitions替代foreach(谨慎使用)
+	- 广播大变量 算子使用外部大变量时，使用广播保证每个executor有一份变量由task共用
+- 资源调优
+	- 一个CPU core同一时间只能执行一个线程。而每个Executor进程上分配到的多个task，都是以每个task一条线程的方式，多线程并发运行的
+	- num-executors 设置executor数量，50-100
+	- executor-memory executor内存，4-8G
+	- executor-cores executor核数 2-4 决定了每个Executor进程并行执行task线程的能力
+	- driver-memory driver进程的内存
+	- spark.default.parallelism 500-1000 该参数用于设置每个stage的默认task数量，设置该参数为num-executors * executor-cores的2~3倍较为合适
+	- spark.storage.memoryFraction RDD持久化数据在Executor内存中能占的比例
+	- spark.shuffle.memoryFraction shuffle占内存的比例
+	- 参考
+	```
+	./bin/spark-submit \
+	  --master yarn-cluster \
+	  --num-executors 100 \
+	  --executor-memory 6G \
+	  --executor-cores 4 \
+	  --driver-memory 1G \
+	  --conf spark.default.parallelism=1000 \
+	  --conf spark.storage.memoryFraction=0.5 \
+	  --conf spark.shuffle.memoryFraction=0.3 \
+	```
 
 
 
