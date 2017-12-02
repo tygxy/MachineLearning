@@ -12,3 +12,4 @@
 ## [9. Hive](https://github.com/tygxy/MachineLearning/blob/master/HIVE.md)
 ## [9. Hive-new](https://github.com/tygxy/MachineLearning/blob/master/hive-new.md)
 ## [10. Scala](https://github.com/tygxy/MachineLearning/blob/master/Scala.md)
+## [11. Hadoop](https://github.com/tygxy/MachineLearning/blob/master/Hadoop.md)
