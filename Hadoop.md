@@ -1,5 +1,33 @@
 # Hadoop相关生态圈技术
 
+## 0.Hadoop的安装
+- 安装jdk 
+- 设置ip和hostname的映射关系,ssh等
+- 配置文件
+    - 	hadoop-env.sh 
+    ```
+        export JAVA_HOME=/home/hadoop/app/jdk1.7.0_51
+    ```
+    - core-site.xml
+    ```
+         <property>
+                <name>fs.defaultFS</name>
+                <value>hdfs://hadoop001:8020</value>
+         </property>	
+    	    <property>
+                <name>hadoop.tmp.dir</name>
+                <value>/home/hadoop/app/tmp</value>
+    	    </property>	
+    ```
+    - hdfs-site.xml
+    ```
+         <property>
+             <name>dfs.replication</name>
+             <value>1</value>
+         </property>
+    ```
+
+
 ## 1.HDFS
 - 块，默认128MB，抽象概念，操作都是以块为基本单元，默认备份数为三，NameNode管理文件系统命名空间，维护文件目录树和索引目录，DataNode具体存储文件
 - 副本存放策略是本地机架节点，同一机架节点，不同机架节点
