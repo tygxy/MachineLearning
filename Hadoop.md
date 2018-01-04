@@ -97,4 +97,16 @@
         4）不适合迭代多次、交互式、流式的处理；
         
 ### 2.5 Hive过渡到Spark SQL
-- 
+
+### 2.6 DataFrame和DataSet
+- 概念
+    - A Dataset is a distributed collection of data：分布式的数据集
+    - A DataFrame is a Dataset organized into named columns. （RDD With schema）以列（列名、列的类型、列值）的形式构成的分布式数据集，按照列赋予不同的名称
+- API
+    - printSchema,select,filter,show,groupBy,count,sort,take
+- DataFrame和RDD互操作的两种方式：
+            1）反射：case class   前提：事先需要知道你的字段、字段类型    
+            2）编程：Row          如果第一种情况不能满足你的要求（事先不知道列）
+            
+### 2.7 外部数据源
+ 
