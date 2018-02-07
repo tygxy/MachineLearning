@@ -608,6 +608,23 @@ File[] listFile(); //返回File数组
 	- 引用传递，传递的是对象，形参和实参的对象指向同一存储单元，对形参的修改会影响实参;包装类型都是引用传递
 - 不可变类 创建类的实例后，不允许修改它的值，所有基本类型的包装类，String都是不可变类
 - 字符串创建与存储的机制
+	- JVM存在一个字符串池，保存String对象，可以共享使用
+	- 如果是String s1 = new String("abc"),则会创建新对象，也会指向字符串池中的对象
+	- 如果是String s2 = "abc"，指向常量池中的String对象，由于String是不可变类，所以String对象可以被共享不会导致程序混乱
+- ”==“，equals，hashCode
+	- "=="用来比较两个变量的值是否相等，基本数据类型直接对比，引用类型是对比是否指向同一个对象，但是无法对比两个对象的内容是否相同
+	- equals，如果没有被重写，效果跟”==“一样是比较是否为同一对象，如果被重写可以比较两个对象的值是否相同，比如String中就是比较值是否相同
+	- hashCode，判断是否指向同一个对象
+- String,StringBuffer,StringBuilder,StringTokenizer
+	- String是不变类，StringBuffer是可变类，如果字符串被修改，使用sb;此外对String的修改，本质是创建sb,调用sb.append,然后调用sb.toString()返回结果
+	- StringBuilder也可以被修改字符串，但是线程不安全;但是效率最高，sb次之，String最慢
+	- StringTokenizer是分割字符串工具，类似于split
+- length是数组，length()是字符串，size()是针对泛型集合
+- Java提供两种异常类
+	- Error表示运行中出现JVM层次的严重错误，不可恢复，会导致程序终止执行，比如OutOfMemoryError和ThreadDeath
+	- Exception表示可恢复的错误，包含两种类型
+		- 检查异常，发生在编译阶段，编译器会强制程序捕获此类型异常，可以将此异常放在try中，处理放在catch中;比如IO异常，SQL异常
+		- 运行异常，JVM处理，系统会向上层抛出异常，直到遇到处理代码为止；如果没有处理块，就会抛到最上层，会导致主程序终止
 	
 
 
