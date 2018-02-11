@@ -573,8 +573,8 @@ File[] listFile(); //返回File数组
 	- 是一种排序二叉树，有序
 
 #### Map
-- HashMap
-- TreeMap
+- HashMap，基于散列表实现，采用对象的Hashcode可以快速查询
+- TreeMap，基于红黑树的数据结构实现
 
 
 
@@ -616,6 +616,7 @@ File[] listFile(); //返回File数组
 	- "=="用来比较两个变量的值是否相等，基本数据类型直接对比，引用类型是对比是否指向同一个对象，但是无法对比两个对象的内容是否相同
 	- equals，如果没有被重写，效果跟”==“一样是比较是否为同一对象，如果被重写可以比较两个对象的值是否相同，比如String中就是比较值是否相同
 	- hashCode，判断是否指向同一个对象
+	- 两个对象相等，则hashcode值相同，但是两个对象不同，也可能有相同的hashcode值；可以用Hashcode不等判断两个对象不等
 - String,StringBuffer,StringBuilder,StringTokenizer
 	- String是不变类，StringBuffer是可变类，如果字符串被修改，使用sb;此外对String的修改，本质是创建sb,调用sb.append,然后调用sb.toString()返回结果
 	- StringBuilder也可以被修改字符串，但是线程不安全;但是效率最高，sb次之，String最慢
@@ -650,6 +651,14 @@ File[] listFile(); //返回File数组
 	- 栈存放基本数据类型和对象的引用变量，变量出了作用域会被自动回收，不是垃圾回收机制回收的
 	- 堆或者常量池(字符串常量池和基本数据类型常量)存放程序运行中的对象，需要new创建
 	- JVM是基于堆栈的虚拟机，每个Java程序运行在一个单独的JVM实例上，每个实例唯一对应一个堆，但一个java程序内的多个线程都运行在同一个JVM实例上，所以这些线程共享堆内存
+- ArrayList,Vector,LinkedList的区别
+	- ArrayList,Vector都是基于数组实现的;由于数据存储是连续的，索引数据比较快，但是随机插入元素执行很慢;Vector每次扩充2倍，ArrayList是1.5倍;两者最大区别在于Vector线程安全
+	- LinkedList采用双向列表实现，随意访问效率低，但是插入元素效率高，线程不安全
+	- 如果对数据操作主要是索引和在集合末端增改删数据，选前者；如果需要随机访问就选后者；如果多线程操作，选择Vector
+- HashMap,HashTable,TreeMap
+	- HashMap,HashTable都是基于HashCode值存储数据，后者是线程安全的;前者可以允许一条(null)空键值，后者不可以
+	- TreeMap根据键排序
+
 	
 
 
