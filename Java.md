@@ -732,10 +732,10 @@ synchronized(xx) {}
 - HashMap,HashTable,TreeMap
 	- HashMap,HashTable都是基于HashCode值存储数据，后者是线程安全的;前者可以允许一条(null)空键值，后者不可以
 	- TreeMap根据键排序
-- 
+- sleep()和wait()区别
+	- sleep不会释放锁，只是让线程暂停一段时间，时间到自动恢复；wait会释放锁，
 
 	
-
 
 
 
