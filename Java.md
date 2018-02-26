@@ -824,7 +824,9 @@ synchronized(xx) {}
 - Collect包括List,Set,Map
 	- List是有序的，可重复的集合，包括Vector，ArrayList，LinkedList三个常用类。前两者底层基于数组结果，后者使用链表；第一线程安全，后两者线程不安全；后两者中，前者随机查询快，增删复杂，后者反之
 	- Set不可重复，无序，包括HashSet,LinkedHashSet,TreeSet三个常用类。
+		- 
 	- Map，包括hashMap,HashTable,LinkedHashMap,TreeMap
+		- HashMap允许键和值是null，而Hashtable不允许键或者值是null；HashTable是线程安全的
 - Collection和Collections的区别
 	- Collection是集合类的上级接口，子接口主要有Set 和List、Map。 
 	- Collections是针对集合类的一个帮助类，提供了操作集合的工具方法：一系列静态方法实现对各种集合的搜索、排序、线程安全化等操作。
@@ -839,10 +841,11 @@ synchronized(xx) {}
 	- HashMap由数组+链表组成的，数组是HashMap的主体，链表则是主要为了解决哈希冲突而存在的
 	- 如果定位到的数组位置不含链表（当前entry的next指向null）,那么对于查找，添加等操作很快，仅需一次寻址即可；如果定位到的数组包含链表，对于添加操作，其时间复杂度依然为O(1)，因为最新的Entry会插入链表头部，急需要简单改变引用链即可，而对于查找操作来讲，此时就需要遍历链表，然后通过key对象的equals方法逐一比对查找。
 	- 最早存储位置的判断 key->hashcode()->hash%[].length->存储下标
-	- 重写equals的方法的时候，必须注意重写hashCode方法，因为
+	- 如果类重写equals的方法的时候，必须注意重写hashCode方法
+	- 超过加载因子后，会扩展为原来的两倍
 
 ## 多线程
-
+- 
 
 
 
