@@ -824,7 +824,22 @@ synchronized(xx) {}
 - Collect包括List,Set,Map
 	- List是有序的，可重复的集合，包括Vector，ArrayList，LinkedList三个常用类。前两者底层基于数组结果，后者使用链表；第一线程安全，后两者线程不安全；后两者中，前者随机查询快，增删复杂，后者反之
 	- Set不可重复，无序，包括HashSet,LinkedHashSet,TreeSet三个常用类。
-
+	- Map，包括hashMap,HashTable,LinkedHashMap,TreeMap
+- Collection和Collections的区别
+	- Collection是集合类的上级接口，子接口主要有Set 和List、Map。 
+	- Collections是针对集合类的一个帮助类，提供了操作集合的工具方法：一系列静态方法实现对各种集合的搜索、排序、线程安全化等操作。
+- Array和arrayList区别
+	- Array可以容纳基本类型和对象，而ArrayList只能容纳对象；Array是指定大小的，而ArrayList大小是固定的； Array没有提供ArrayList那么多功能，比如addAll、removeAll和iterator等。
+- ArrayList 和 LinkedList
+	- ArrayList的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是列表的形式存储它的数据，查找某个元素的时间复杂度是O(n)。
+	- 相对于ArrayList，LinkedList的插入，添加，删除操作速度更快
+	- LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。
+- HashMap实现原理
+	- HashMap的主干是一个Entry数组。Entry是HashMap的基本组成单元，每一个Entry包含一个key,value,next指针,hash值
+	- HashMap由数组+链表组成的，数组是HashMap的主体，链表则是主要为了解决哈希冲突而存在的
+	- 如果定位到的数组位置不含链表（当前entry的next指向null）,那么对于查找，添加等操作很快，仅需一次寻址即可；如果定位到的数组包含链表，对于添加操作，其时间复杂度依然为O(1)，因为最新的Entry会插入链表头部，急需要简单改变引用链即可，而对于查找操作来讲，此时就需要遍历链表，然后通过key对象的equals方法逐一比对查找。
+	- 最早存储位置的判断 key->hashcode()->hash%[].length->存储下标
+	- 重写equals的方法的时候，必须注意重写hashCode方法，因为
 
 ## 多线程
 
