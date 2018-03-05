@@ -880,6 +880,19 @@ synchronized(xx) {}
 	- 最早存储位置的判断 key->hashcode()->hash%[].length->存储下标
 	- 如果类重写equals的方法的时候，必须注意重写hashCode方法
 	- 超过加载因子后，会扩展为原来的两倍
+- ConcurrentHashMap实现原理
+	- 一个ConcurrentHashMap由多个segment组成,一个Segment里包含一个HashEntry数组，每个Segment守护者一个HashEntry数组里的元素,当对HashEntry数组的数据进行修改时，必须首先获得它对应的Segment锁
+	- 相当于把数组分成多个多个锁，每个锁只锁部分数据，这样其他线程可以访问没有被锁的数据，提高并发
+
+
+- Hash冲突的解决方法
+	- 开放定址法,发生冲突时，有一个增量，然后再次Hash，直到不冲突为止，通用的形式 Hi = (H(key) + di) % m  m是表长，di为增量序列，根据增量序列的不同，又有三种方式
+		- 线性探测再散列 di = 1,2,3,...m-1
+		- 二次探测再散列 1的平方，1的平方的相反数...
+		- 伪随机探测再散列
+	- 链地址法
+	- 再哈希 构造多个不同的Hash函数，这个不行换下一个
+	- 建立公共溢出区 
 
 ## 多线程
 - 
