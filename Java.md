@@ -923,7 +923,8 @@ synchronized(xx) {}
 	- HashMap可以通过下面的语句进行同步：Map m = Collections.synchronizeMap(hashMap);
 
 - ConcurrentHashMap实现原理
-	- 一个ConcurrentHashMap由多个segment组成,一个Segment里包含一个HashEntry数组，每个Segment守护者一个HashEntry数组里的元素,当对HashEntry数组的数据进行修改时，必须首先获得它对应的Segment锁
+	- Hashtabl在竞争激烈的环境下表现效率低下的原因是一把锁锁住整张表，导致所有线程同时竞争一个锁
+	- 一个ConcurrentHashMap由segment数组组成,一个Segment里包含一个HashEntry数组，每个Segment守护者一个HashEntry数组里的元素,当对HashEntry数组的数据进行修改时，必须首先获得它对应的Segment锁
 	- 相当于把数组分成多个多个锁，每个锁只锁部分数据，这样其他线程可以访问没有被锁的数据，提高并发
 
 - Hash冲突的解决方法
@@ -949,10 +950,11 @@ synchronized(xx) {}
 	- 进程是程序的一种动态形式，是CPU、内存等资源占用的基本单位，而线程是不能占有这些资源的。 
 	- 进程之间相互独立，通信比较困难，而线程之间共享一块内存区域，通信比较方便
 	- 进程在执行的过程中，包含比较固定的入口，执行顺序，出口，而线程的这些过程会被应用程序所控制
+	- 进程是资源分配的最小单位，线程是cpu调度的最小单位
 
 - 创建多线程的方式
-	- 继承Thread类
-	- 实现runnable接口
+	- 继承Thread类，重写run()方法
+	- 实现runnable接口,重写run()方法
 	- 实现callable接口
 	- 使用Executor框架来创建线程池
 
@@ -961,11 +963,18 @@ synchronized(xx) {}
 	- 可运行runnable,线程对象创建后，其他线程调用了该对象的strat方法。该状态的线程位于可运行线程池中，等待被线程调度选中，获取cpu的使用权 。
 	- 运行running,可运行状态的线程获得了cpu时间片，执行程序代码。
 	- 阻塞block，阻塞状态是指线程因为某种原因放弃了cpu使用权，暂时停止运行
-		- 等待阻塞 运行的线程执行 o . wait ()方法， JVM会把该线程放入等待队列中。
+		- 等待阻塞 运行的线程执行o.wait()方法， JVM会把该线程放入等待队列中，wait会释放持有的锁，直到其他线程调用此对象的 notify()方法或notifyAll()唤醒方法
 		- 同步阻塞 运行的线程在获取对象的同步锁时，若该同步锁被别的线程占用，则JVM会把该线程放入锁池(lock pool)中。
-		- 其他阻塞 运行的线程执行Thread . sleep ( long ms )或 t . join ()方法，或者发出了 I / O 请求时， JVM 会把该线程置为阻塞状态，当 sleep ()状态超时、 join ()等待线程终止或者超时、或者 I / O 处理完毕时，线程重新转入可运行( runnable )状态。
-	- 死亡dead，线程run ()、 main ()方法执行结束，或者因异常退出了run ()方法，则该线程结束生命周期。
+		- 其他阻塞 运行的线程执行Thread.sleep()或t.join()方法，或者发出了I/O 请求时， JVM会把该线程置为阻塞状态，当sleep ()状态超时、 join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入可运行(runnable)状态。（注意,sleep是不会释放持有的锁）
+	- 死亡dead，线程run()，main()方法执行结束，或者因异常退出了run()方法，则该线程结束生命周期。
 	![](raw/thread.jpg?raw=true)
+
+- 线程同步方法
+	- 使用sychronized关键字
+	- lock
+	- reentrantLock
+
+- 锁的等级：方法锁、对象锁、类锁
 
 - 同步方法和同步代码块的区别是什么
 	- 同步方法默认用this或者当前类class对象作为锁,同步代码块可以选择以什么来加锁，比同步方法要更细颗粒度，我们可以选择只同步会发生同步问题的部分代码而不是整个方法；
@@ -976,8 +985,11 @@ synchronized(xx) {}
 	- 死锁产生的4个必要条件：互斥条件，请求和保持条件，不可抢占条件，循环等待条件
 	- 解决方法，打破四个必要条件之一，比如进程开始前，必须申请到所有资源；进程在新资源请求不能被满足时，它必须释放已经保持的所有资源，允许一个进程只获得初期的资源就开始运行，然后再把运行完的资源释放出来。然后再请求新的资源等；
 
-- volatile
-	- 
+- volatile和synchronized的比较
+	- volatile轻量级，只能修饰变量。synchronized重量级，可以修饰方法，变量
+	- volatile主要用在多个线程感知实例变量被更改了场合，从而使得各个线程获得最新的值。它强制线程每次从主内存中获得变量，而不是从线程的私有内存中读取变量，从而保证了数据的可见性。
+	- volatile仅能实现变量的修改可见性,而synchronized则可以保证变量的修改可见性和原子性
+	- volatile不会造成线程的阻塞,而synchronized可能会造成线程的阻塞.
 
 
 
