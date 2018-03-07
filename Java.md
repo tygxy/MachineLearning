@@ -873,36 +873,54 @@ synchronized(xx) {}
 		- 把Java堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。在新生代中，每次垃圾收集时都发现有大批对象死去，只有少量存活，那就选用复制算法，只需要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高、没有额外空间对它进行分配担保，就必须使用“标记-清理”或“标记-整理”算法来进行回收。
 - 垃圾收集器
 	- serial，单线程收集器，只会使用一个CPU或一条收集器线程去完成垃圾回收工作，更重要的是在进行垃圾回收时，必须暂停其他所有的工作线程，简单高效，用于新生代
-	- ParNew: 是Serial收集器的多线程版本，垃圾回收时采用多线程方式进行回收。默认情况下使用的线程数是cpu数量。
-	- Parallel:
-	- parallel old:
-	- CMS收集器
+	- ParNew: 是Serial收集器的多线程版本，垃圾回收时采用多线程方式进行回收。默认情况下使用的线程数是cpu数量。除了serial收集器，目前只有它能和CMS收集器配合工作
+	- Parallel:使用复制算法收集器，也是一个并行的多线程收集器，它关心吞吐量，
+	- Serial Old: 老年代，单线程收集器，使用标记整理算法。
+	- parallel old:并行的老年代版本收集器，使用标记整理算法。主要与Parallel Scavenge配合使用
+	- CMS收集器：是以获得最短回收停顿时间为目标的收集器，使用标记清除算法。
 
 ## 集合框架
 - Collect包括List,Set,Map
 	- List是有序的，可重复的集合，包括Vector，ArrayList，LinkedList三个常用类。前两者底层基于数组结果，后者使用链表；第一线程安全，后两者线程不安全；后两者中，前者随机查询快，增删复杂，后者反之
-	- Set不可重复，无序，包括HashSet,LinkedHashSet,TreeSet三个常用类。
-		- HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。
-		- TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)。
+		- Stack是Vector提供的一个子类，用于模拟"栈"这种数据结构，Queue用于模拟"队列"这种数据结构(
+	- Set不可重复，无序，包括HashSet,LinkedHashSet,TreeSet三个常用类。Set 最多有一个 null 元素
+		- HashSet是由一个hash表来实现的，线程不安全，因此，它的元素是无序的。依赖的是元素的hashCode方法和euqals方法实现唯一性
+		- LinkedHashSet，具有HashSet的查询速度，且内部采用双向链表维护元素的顺序，
+		- TreeSet，线程不安全，是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)。通过compareTo或者compare方法中的来保证元素的唯一性。元素是以二叉树的形式存放的。意味着TreeSet中的元素要实现Comparable接口。或者有一个自定义的比较器。
+	- Queue 队列，两个实现类LinkedList 和PriorityQueue
 	- Map，包括hashMap,HashTable,LinkedHashMap,TreeMap
-		- HashMap允许键和值是null，而Hashtable不允许键或者值是null；HashTable是线程安全的
+		- HashMap允许键和值是null，线程不安全，HashMap的迭代器(Iterator)是fail-fast迭代器，而Hashtable的enumerator(列举)迭代器不是fail-fast的
+		- Hashtable不允许键或者值是null；HashTable是线程安全的
+		- LinkedHashMap: 可以保证HashMap集合有序
+		- TreeMap：可以用来对Map集合中的键进行排序.底层是采用红黑树
+
+- iterator迭代器
+	- 确保遍历可靠的原则是：只在一个线程中使用这个集合，或者在多线程中对遍历代码进行同步。只能向前遍历
+	- List还提供一个listIterator()方法，返回一个ListIterator接口，和标准的Iterator接口相比，ListIterator多了一些add()之类的方法，允许添加，删除，设定元素，还能向前或向后遍历。
+	- 迭代器fail-fast属性,每次我们尝试获取下一个元素的时候，Iterator fail-fast属性检查当前集合结构里的任何改动。如果发现任何改动，它抛出ConcurrentModificationException
+
 - Collection和Collections的区别
 	- Collection是集合类的上级接口，子接口主要有Set 和List、Map。 
 	- Collections是针对集合类的一个帮助类，提供了操作集合的工具方法：一系列静态方法实现对各种集合的搜索、排序、线程安全化等操作。
-- Array和arrayList区别
-	- Array可以容纳基本类型和对象，而ArrayList只能容纳对象；Array是指定大小的，而ArrayList大小是固定的； Array没有提供ArrayList那么多功能，比如addAll、removeAll和iterator等。
+
+- Array和ArrayList区别
+	- Array可以容纳基本类型和对象，而ArrayList只能容纳对象；
+	- Array是指定大小的，而ArrayList大小是固定的； 
+	- Array没有提供ArrayList那么多功能，比如addAll、removeAll和iterator等。
+
 - ArrayList 和 LinkedList
 	- ArrayList的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是列表的形式存储它的数据，查找某个元素的时间复杂度是O(n)。
 	- 相对于ArrayList，LinkedList的插入，添加，删除操作速度更快
 	- LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。
+
 - HashMap实现原理
 	- HashMap的主干是一个Entry数组。Entry是HashMap的基本组成单元，每一个Entry包含一个key,value,next指针,hash值
 	- HashMap由数组+链表组成的，数组是HashMap的主体，链表则是主要为了解决哈希冲突而存在的
 	- 如果定位到的数组位置不含链表（当前entry的next指向null）,那么对于查找，添加等操作很快，仅需一次寻址即可；如果定位到的数组包含链表，对于添加操作，其时间复杂度依然为O(1)，因为最新的Entry会插入链表头部，急需要简单改变引用链即可，而对于查找操作来讲，此时就需要遍历链表，然后通过key对象的equals方法逐一比对查找。
 	- 最早存储位置的判断 key->hashcode()->hash%[].length->存储下标
 	- 如果类重写equals的方法的时候，必须注意重写hashCode方法
-	- 超过加载因子后，会扩展为原来的两倍，并且rehash
-	- 重要特性是容量(capacity)，负载因子(load factor)和扩容极限(threshold resizing)
+	- 其它关于HashMap比较重要的问题是容量、加载因子和阀值调整,HashMap默认的初始容量是16，加载因子是0.75。阀值是为加载系数乘以容量，超过阈值后，会扩展为原来的两倍，并且rehash
+	- HashMap可以通过下面的语句进行同步：Map m = Collections.synchronizeMap(hashMap);
 
 - ConcurrentHashMap实现原理
 	- 一个ConcurrentHashMap由多个segment组成,一个Segment里包含一个HashEntry数组，每个Segment守护者一个HashEntry数组里的元素,当对HashEntry数组的数据进行修改时，必须首先获得它对应的Segment锁
@@ -916,6 +934,13 @@ synchronized(xx) {}
 	- 链地址法
 	- 再哈希 构造多个不同的Hash函数，这个不行换下一个
 	- 建立公共溢出区 
+
+- Comparable和Comparator接口
+	- Comparable & Comparator 都是用来实现集合中元素的比较、排序的，只是 Comparable 是在集合内部定义的方法实现的排序，Comparator 是在集合外部实现的排序
+	- Comparator位于包java.util下，而Comparable位于包java.lang下
+	- Comparator定义了俩个方法，分别是int compare(T o1,T o2)和boolean equals(Object obj)；Comparable接口只提供了int compareTo(T o)方法.
+	- Comparable 是在集合内部定义的方法实现的排序,Comparator 是在集合外部实现的排序.Comparable 是一个对象本身就已经支持自比较所需要实现的接口,自定义的类要在加入list容器中后能够排序，可以实现Comparable接口.在用Collections类的sort方法排序时，如果不指定Comparator，那么就以自然顺序排序.而 Comparator 是一个专用的比较器，当这个对象不支持自比较或者自比较函数不能满足你的要求时，你可以写一个比较器来完成两个对象之间大小的比较。用 Comparator 是策略模式（strategy design pattern），就是不改变对象自身，而用一个策略对象（strategy object）来改变它的行为。
+
 
 ## 多线程
 - 线程和进程区别
@@ -950,6 +975,9 @@ synchronized(xx) {}
 	- 所谓死锁是指多个“进程”(不是线程)因竞争资源而造成的一种僵局（互相等待），若无外力作用，这些进程都将无法向前推进。
 	- 死锁产生的4个必要条件：互斥条件，请求和保持条件，不可抢占条件，循环等待条件
 	- 解决方法，打破四个必要条件之一，比如进程开始前，必须申请到所有资源；进程在新资源请求不能被满足时，它必须释放已经保持的所有资源，允许一个进程只获得初期的资源就开始运行，然后再把运行完的资源释放出来。然后再请求新的资源等；
+
+- volatile
+	- 
 
 
 
